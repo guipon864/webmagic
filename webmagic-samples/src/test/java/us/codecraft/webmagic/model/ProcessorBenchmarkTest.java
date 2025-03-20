@@ -17,7 +17,7 @@ public class ProcessorBenchmarkTest {
 
     @Ignore
     @Test
-    public void test() {
+    public void testModelPageProcessorPerformance() {
         ModelPageProcessor modelPageProcessor = ModelPageProcessor.create(Site.me(), OschinaBlog.class);
         Page page = new Page();
         page.setRequest(new Request("http://my.oschina.net/flashsword/blog"));
