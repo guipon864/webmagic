@@ -104,6 +104,30 @@ public class Spider implements Runnable, Task {
     private Date startTime;
 
     private long emptySleepTime = 30000;
+    
+    public enum Status {
+        Init(0), Running(1), Stopped(2);
+
+        private Status(int value) {
+            this.value = value;
+        }
+
+        private int value;
+
+        int getValue() {
+            return value;
+        }
+
+        public static Status fromValue(int value) {
+            for (Status status : Status.values()) {
+                if (status.getValue() == value) {
+                    return status;
+                }
+            }
+            //default value
+            return Init;
+        }
+    }
 
     /**
      * create a spider with pageProcessor.
@@ -275,30 +299,6 @@ public class Spider implements Runnable, Task {
         return this;
     }
 
-    protected void initComponent() {
-        if (downloader == null) {
-            this.downloader = new HttpClientDownloader();
-        }
-        if (pipelines.isEmpty()) {
-            pipelines.add(new ConsolePipeline());
-        }
-        downloader.setThread(threadNum);
-        if (threadPool == null || threadPool.isShutdown()) {
-            if (executorService != null && !executorService.isShutdown()) {
-                threadPool = new CountableThreadPool(threadNum, executorService);
-            } else {
-                threadPool = new CountableThreadPool(threadNum);
-            }
-        }
-        if (startRequests != null) {
-            for (Request request : startRequests) {
-                addRequest(request);
-            }
-            startRequests.clear();
-        }
-        startTime = new Date();
-    }
-
     @Override
     public void run() {
         checkRunningStat();
@@ -359,44 +359,7 @@ public class Spider implements Runnable, Task {
         }
         logger.info("Spider {} closed! {} pages downloaded.", getUUID(), pageCount.get());
     }
-
-    /**
-     * @deprecated Use {@link #onError(Request, Exception)} instead.
-     */
-    @Deprecated
-    protected void onError(Request request) {
-    }
-
-    protected void onError(Request request, Exception e) {
-        this.onError(request);
-
-        if (CollectionUtils.isNotEmpty(spiderListeners)) {
-            for (SpiderListener spiderListener : spiderListeners) {
-                spiderListener.onError(request, e);
-            }
-        }
-    }
-
-    protected void onSuccess(Request request) {
-        if (CollectionUtils.isNotEmpty(spiderListeners)) {
-            for (SpiderListener spiderListener : spiderListeners) {
-                spiderListener.onSuccess(request);
-            }
-        }
-    }
-
-    private void checkRunningStat() {
-        while (true) {
-            int statNow = stat.get();
-            if (statNow == STAT_RUNNING) {
-                throw new IllegalStateException("Spider is already running!");
-            }
-            if (stat.compareAndSet(statNow, STAT_RUNNING)) {
-                break;
-            }
-        }
-    }
-
+    
     public void close() {
         destroyEach(downloader);
         destroyEach(pageProcessor);
@@ -405,16 +368,6 @@ public class Spider implements Runnable, Task {
             destroyEach(pipeline);
         }
         threadPool.shutdown();
-    }
-
-    private void destroyEach(Object object) {
-        if (object instanceof Closeable) {
-            try {
-                ((Closeable) object).close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
@@ -430,89 +383,7 @@ public class Spider implements Runnable, Task {
             }
         }
     }
-
-    private void processRequest(Request request) {
-        Page page;
-        if (null != request.getDownloader()){
-            page = request.getDownloader().download(request,this);
-        }else {
-            page = downloader.download(request, this);
-        }
-        if (page.isDownloadSuccess()){
-            onDownloadSuccess(request, page);
-        } else {
-            onDownloaderFail(request);
-        }
-    }
-
-    private void onDownloadSuccess(Request request, Page page) {
-        if (site.getAcceptStatCode().contains(page.getStatusCode())){
-            pageProcessor.process(page);
-            extractAndAddRequests(page, spawnUrl);
-            if (!page.getResultItems().isSkip()) {
-                for (Pipeline pipeline : pipelines) {
-                    pipeline.process(page.getResultItems(), this);
-                }
-            }
-        } else {
-            logger.info("page status code error, page {} , code: {}", request.getUrl(), page.getStatusCode());
-        }
-        sleep(site.getSleepTime());
-    }
-
-    private void onDownloaderFail(Request request) {
-        if (site.getCycleRetryTimes() == 0) {
-            sleep(site.getSleepTime());
-        } else {
-            // for cycle retry
-            doCycleRetry(request);
-        }
-    }
-
-    private void doCycleRetry(Request request) {
-        Object cycleTriedTimesObject = request.getExtra(Request.CYCLE_TRIED_TIMES);
-        if (cycleTriedTimesObject == null) {
-            addRequest(SerializationUtils.clone(request).setPriority(0).putExtra(Request.CYCLE_TRIED_TIMES, 1));
-        } else {
-            int cycleTriedTimes = (Integer) cycleTriedTimesObject;
-            cycleTriedTimes++;
-            if (cycleTriedTimes < site.getCycleRetryTimes()) {
-                addRequest(SerializationUtils.clone(request).setPriority(0).putExtra(Request.CYCLE_TRIED_TIMES, cycleTriedTimes));
-            }
-        }
-        sleep(site.getRetrySleepTime());
-    }
-
-    protected void sleep(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            logger.error("Thread interrupted when sleep",e);
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    protected void extractAndAddRequests(Page page, boolean spawnUrl) {
-        if (spawnUrl && CollectionUtils.isNotEmpty(page.getTargetRequests())) {
-            for (Request request : page.getTargetRequests()) {
-                addRequest(request);
-            }
-        }
-    }
-
-    private void addRequest(Request request) {
-        if (site.getDomain() == null && request != null && request.getUrl() != null) {
-            site.setDomain(UrlUtils.getDomain(request.getUrl()));
-        }
-        scheduler.push(request, this);
-    }
-
-    protected void checkIfRunning() {
-        if (stat.get() == STAT_RUNNING) {
-            throw new IllegalStateException("Spider is already running!");
-        }
-    }
-
+    
     public void runAsync() {
         Thread thread = new Thread(this);
         thread.setDaemon(false);
@@ -556,11 +427,7 @@ public class Spider implements Runnable, Task {
         destroyWhenExit = true;
         return collectorPipeline.getCollected();
     }
-
-    protected CollectorPipeline getCollectorPipeline() {
-        return new ResultItemsCollectorPipeline();
-    }
-
+    
     public <T> T get(String url) {
         List<String> urls = WMCollections.newArrayList(url);
         List<T> resultItemses = getAll(urls);
@@ -679,29 +546,7 @@ public class Spider implements Runnable, Task {
     }
 
 
-    public enum Status {
-        Init(0), Running(1), Stopped(2);
-
-        private Status(int value) {
-            this.value = value;
-        }
-
-        private int value;
-
-        int getValue() {
-            return value;
-        }
-
-        public static Status fromValue(int value) {
-            for (Status status : Status.values()) {
-                if (status.getValue() == value) {
-                    return status;
-                }
-            }
-            //default value
-            return Init;
-        }
-    }
+    
 
     /**
      * Get thread count which is running
@@ -783,4 +628,168 @@ public class Spider implements Runnable, Task {
         this.emptySleepTime = emptySleepTime;
         return this;
     }
+
+    protected void initComponent() {
+        if (downloader == null) {
+            this.downloader = new HttpClientDownloader();
+        }
+        if (pipelines.isEmpty()) {
+            pipelines.add(new ConsolePipeline());
+        }
+        downloader.setThread(threadNum);
+        if (threadPool == null || threadPool.isShutdown()) {
+            if (executorService != null && !executorService.isShutdown()) {
+                threadPool = new CountableThreadPool(threadNum, executorService);
+            } else {
+                threadPool = new CountableThreadPool(threadNum);
+            }
+        }
+        if (startRequests != null) {
+            for (Request request : startRequests) {
+                addRequest(request);
+            }
+            startRequests.clear();
+        }
+        startTime = new Date();
+    }
+
+    
+    /**
+     * @deprecated Use {@link #onError(Request, Exception)} instead.
+     */
+    @Deprecated
+    protected void onError(Request request) {
+    }
+
+    protected void onError(Request request, Exception e) {
+        this.onError(request);
+
+        if (CollectionUtils.isNotEmpty(spiderListeners)) {
+            for (SpiderListener spiderListener : spiderListeners) {
+                spiderListener.onError(request, e);
+            }
+        }
+    }
+
+    protected void onSuccess(Request request) {
+        if (CollectionUtils.isNotEmpty(spiderListeners)) {
+            for (SpiderListener spiderListener : spiderListeners) {
+                spiderListener.onSuccess(request);
+            }
+        }
+    }
+    
+    protected void sleep(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            logger.error("Thread interrupted when sleep",e);
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    protected void extractAndAddRequests(Page page, boolean spawnUrl) {
+        if (spawnUrl && CollectionUtils.isNotEmpty(page.getTargetRequests())) {
+            for (Request request : page.getTargetRequests()) {
+                addRequest(request);
+            }
+        }
+    }
+    
+    protected void checkIfRunning() {
+        if (stat.get() == STAT_RUNNING) {
+            throw new IllegalStateException("Spider is already running!");
+        }
+    }
+
+    
+
+    protected CollectorPipeline getCollectorPipeline() {
+        return new ResultItemsCollectorPipeline();
+    }
+
+    
+
+    private void checkRunningStat() {
+        while (true) {
+            int statNow = stat.get();
+            if (statNow == STAT_RUNNING) {
+                throw new IllegalStateException("Spider is already running!");
+            }
+            if (stat.compareAndSet(statNow, STAT_RUNNING)) {
+                break;
+            }
+        }
+    }
+
+    private void destroyEach(Object object) {
+        if (object instanceof Closeable) {
+            try {
+                ((Closeable) object).close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void processRequest(Request request) {
+        Page page;
+        if (null != request.getDownloader()){
+            page = request.getDownloader().download(request,this);
+        }else {
+            page = downloader.download(request, this);
+        }
+        if (page.isDownloadSuccess()){
+            onDownloadSuccess(request, page);
+        } else {
+            onDownloaderFail(request);
+        }
+    }
+
+    private void onDownloadSuccess(Request request, Page page) {
+        if (site.getAcceptStatCode().contains(page.getStatusCode())){
+            pageProcessor.process(page);
+            extractAndAddRequests(page, spawnUrl);
+            if (!page.getResultItems().isSkip()) {
+                for (Pipeline pipeline : pipelines) {
+                    pipeline.process(page.getResultItems(), this);
+                }
+            }
+        } else {
+            logger.info("page status code error, page {} , code: {}", request.getUrl(), page.getStatusCode());
+        }
+        sleep(site.getSleepTime());
+    }
+
+    private void onDownloaderFail(Request request) {
+        if (site.getCycleRetryTimes() == 0) {
+            sleep(site.getSleepTime());
+        } else {
+            // for cycle retry
+            doCycleRetry(request);
+        }
+    }
+
+    private void doCycleRetry(Request request) {
+        Object cycleTriedTimesObject = request.getExtra(Request.CYCLE_TRIED_TIMES);
+        if (cycleTriedTimesObject == null) {
+            addRequest(SerializationUtils.clone(request).setPriority(0).putExtra(Request.CYCLE_TRIED_TIMES, 1));
+        } else {
+            int cycleTriedTimes = (Integer) cycleTriedTimesObject;
+            cycleTriedTimes++;
+            if (cycleTriedTimes < site.getCycleRetryTimes()) {
+                addRequest(SerializationUtils.clone(request).setPriority(0).putExtra(Request.CYCLE_TRIED_TIMES, cycleTriedTimes));
+            }
+        }
+        sleep(site.getRetrySleepTime());
+    }
+
+    private void addRequest(Request request) {
+        if (site.getDomain() == null && request != null && request.getUrl() != null) {
+            site.setDomain(UrlUtils.getDomain(request.getUrl()));
+        }
+        scheduler.push(request, this);
+    }
+
+    
 }
