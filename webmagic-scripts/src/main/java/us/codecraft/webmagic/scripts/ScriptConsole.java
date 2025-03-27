@@ -16,6 +16,17 @@ import java.util.List;
  * @since 0.4.1
  */
 public class ScriptConsole {
+
+    private static Integer HTTP_SUCCESS = 200;
+
+    private static Integer HTTP_NOT_FOUND = 404;
+
+    private static Integer HTTP_FORBIDDEN = 403;
+
+    private static Integer HTTP_INTERNAL_SERVER_ERROR = 500;
+
+    private static Integer HTTP_BAD_GATEWAY = 502;
+
     public static void main(String[] args) {
         Params params = parseCommand(args);
         startSpider(params);
@@ -26,7 +37,7 @@ public class ScriptConsole {
                 .language(params.getLanguage()).scriptFromFile(params.getScriptFileName()).thread(params.getThread()).build();
         pageProcessor.getSite().setSleepTime(params.getSleepTime());
         pageProcessor.getSite().setRetryTimes(3);
-        pageProcessor.getSite().setAcceptStatCode(WMCollections.<Integer>newHashSet(200, 404,403, 500,502));
+        pageProcessor.getSite().setAcceptStatCode(WMCollections.<Integer>newHashSet(HTTP_SUCCESS, HTTP_NOT_FOUND, HTTP_FORBIDDEN, HTTP_INTERNAL_SERVER_ERROR, HTTP_BAD_GATEWAY));
         Spider spider = Spider.create(pageProcessor).thread(params.getThread());
         spider.clearPipeline().addPipeline(new Pipeline() {
             @Override
