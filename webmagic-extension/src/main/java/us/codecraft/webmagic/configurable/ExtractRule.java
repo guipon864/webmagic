@@ -2,8 +2,9 @@ package us.codecraft.webmagic.configurable;
 
 import us.codecraft.webmagic.selector.JsonPathSelector;
 import us.codecraft.webmagic.selector.Selector;
-
-import static us.codecraft.webmagic.selector.Selectors.*;
+import static us.codecraft.webmagic.selector.Selectors.$;
+import static us.codecraft.webmagic.selector.Selectors.regex;
+import static us.codecraft.webmagic.selector.Selectors.xpath;
 
 /**
  * @author code4crafter@gmail.com
@@ -32,36 +33,16 @@ public class ExtractRule {
         this.fieldName = fieldName;
     }
 
-    public ExpressionType getExpressionType() {
-        return expressionType;
-    }
-
     public void setExpressionType(ExpressionType expressionType) {
         this.expressionType = expressionType;
-    }
-
-    public String getExpressionValue() {
-        return expressionValue;
     }
 
     public void setExpressionValue(String expressionValue) {
         this.expressionValue = expressionValue;
     }
 
-    public String[] getExpressionParams() {
-        return expressionParams;
-    }
-
-    public void setExpressionParams(String[] expressionParams) {
-        this.expressionParams = expressionParams;
-    }
-
     public boolean isMulti() {
         return multi;
-    }
-
-    public void setMulti(boolean multi) {
-        this.multi = multi;
     }
 
     public Selector getSelector() {
@@ -98,15 +79,8 @@ public class ExtractRule {
         }
     }
 
-    public void setSelector(Selector selector) {
-        this.selector = selector;
-    }
-
     public boolean isNotNull() {
         return notNull;
     }
 
-    public void setNotNull(boolean notNull) {
-        this.notNull = notNull;
-    }
 }
