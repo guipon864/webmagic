@@ -552,14 +552,16 @@ public class Spider implements Runnable, Task {
      * Get thread count which is running
      *
      * @return thread count which is running
+     * @throws IllegalStateException if thread pool is not initialized
      * @since 0.4.1
      */
     public int getThreadAlive() {
         if (threadPool == null) {
-            return 0;
+            throw new IllegalStateException("Thread pool is not initialized.");
         }
         return threadPool.getThreadAlive();
     }
+
 
     /**
      * Whether add urls extracted to download.<br>
