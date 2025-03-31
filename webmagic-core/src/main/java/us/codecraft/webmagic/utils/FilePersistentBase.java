@@ -1,6 +1,10 @@
 package us.codecraft.webmagic.utils;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.util.Map;
+
+import us.codecraft.webmagic.ResultItems;
 
 /**
  * Base object of file persistence.
@@ -46,5 +50,20 @@ public class FilePersistentBase {
 
     public String getPath() {
         return path;
+    }
+
+    public void printResultItems(PrintWriter printWriter, ResultItems resultItems) {
+        printWriter.println("url:\t" + resultItems.getRequest().getUrl());
+        for (Map.Entry<String, Object> entry : resultItems.getAll().entrySet()) {
+            if (entry.getValue() instanceof Iterable) {
+                Iterable value = (Iterable) entry.getValue();
+                printWriter.println(entry.getKey() + ":");
+                for (Object o : value) {
+                    printWriter.println(o);
+                }
+            } else {
+                printWriter.println(entry.getKey() + ":\t" + entry.getValue());
+            }
+        }
     }
 }
