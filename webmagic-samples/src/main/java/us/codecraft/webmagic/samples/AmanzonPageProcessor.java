@@ -1,12 +1,12 @@
 package us.codecraft.webmagic.samples;
 
+import java.util.List;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.selector.Html;
-
-import java.util.List;
 
 /**
  * @author code4crafer@gmail.com
@@ -30,12 +30,6 @@ public class AmanzonPageProcessor implements PageProcessor{
                 System.out.println(answerNum);
                 String createTime = tempHtml.xpath("//td[3]/text()").toString();
                 System.out.println(createTime);
-
-				/* Document doc = Jsoup.parse(questionList.get(i));
-				 Html hmt  = Html.create(questionList.get(i)) ;
-			     String str = hmt.links().toString();
-				  String   content =   doc.getElementsByTag("a").text();
-				  String ss = doc.text();*/
 
             }
         }
