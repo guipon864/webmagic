@@ -1,17 +1,17 @@
 package us.codecraft.webmagic.samples.scheduler;
 
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.scheduler.PriorityScheduler;
-
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static us.codecraft.webmagic.selector.Selectors.xpath;
 
 /**
@@ -78,7 +78,7 @@ public class ZipCodePageProcessor implements PageProcessor {
     }
 
     public static void main(String[] args) {
-        Spider spider = Spider.create(new ZipCodePageProcessor()).scheduler(new PriorityScheduler()).addUrl("http://www.ip138.com/post/");
+        Spider spider = Spider.create(new ZipCodePageProcessor()).setScheduler(new PriorityScheduler()).addUrl("http://www.ip138.com/post/");
 
         spider.run();
     }

@@ -1,5 +1,8 @@
 package us.codecraft.webmagic.model.samples;
 
+import java.util.Collection;
+import java.util.List;
+
 import us.codecraft.webmagic.MultiPageModel;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.model.OOSpider;
@@ -9,9 +12,6 @@ import us.codecraft.webmagic.model.annotation.TargetUrl;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.pipeline.MultiPagePipeline;
 import us.codecraft.webmagic.scheduler.RedisScheduler;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author code4crafter@gmail.com <br>
@@ -73,7 +73,7 @@ public class News163 implements MultiPageModel {
 
     public static void main(String[] args) {
         OOSpider.create(Site.me(), News163.class).addUrl("http://news.163.com/13/0802/05/958I1E330001124J_2.html")
-                .scheduler(new RedisScheduler("localhost")).addPipeline(new MultiPagePipeline()).addPipeline(new ConsolePipeline()).run();
+                .setScheduler(new RedisScheduler("localhost")).addPipeline(new MultiPagePipeline()).addPipeline(new ConsolePipeline()).run();
     }
 
 }

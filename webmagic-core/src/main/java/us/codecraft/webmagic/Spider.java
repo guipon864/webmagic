@@ -192,18 +192,6 @@ public class Spider implements Runnable, Task {
     /**
      * set scheduler for Spider
      *
-     * @param scheduler scheduler
-     * @return this
-     * @see #setScheduler(us.codecraft.webmagic.scheduler.Scheduler)
-     */
-    @Deprecated
-    public Spider scheduler(Scheduler scheduler) {
-        return setScheduler(scheduler);
-    }
-
-    /**
-     * set scheduler for Spider
-     *
      * @param updateScheduler scheduler
      * @return this
      * @see Scheduler
