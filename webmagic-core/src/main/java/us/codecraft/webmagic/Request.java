@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import us.codecraft.webmagic.downloader.Downloader;
-import us.codecraft.webmagic.model.HttpRequestBody;
+import us.codecraft.webmagic.model.common.HttpRequestBody;
 import us.codecraft.webmagic.utils.Experimental;
 
 /**

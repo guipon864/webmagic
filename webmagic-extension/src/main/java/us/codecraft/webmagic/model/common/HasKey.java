@@ -1,4 +1,4 @@
-package us.codecraft.webmagic.model;
+package us.codecraft.webmagic.model.common;
 
 import us.codecraft.webmagic.utils.Experimental;
 

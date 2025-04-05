@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Task;
-import us.codecraft.webmagic.model.HasKey;
+import us.codecraft.webmagic.model.common.HasKey;
 import us.codecraft.webmagic.utils.FilePersistentBase;
 
 import java.io.FileWriter;
