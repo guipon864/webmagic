@@ -1,5 +1,7 @@
 package us.codecraft.webmagic.model.formatter;
 
+import us.codecraft.webmagic.model.common.ObjectFormatter;
+
 import java.util.Arrays;
 import java.util.List;
 

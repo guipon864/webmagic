@@ -1,6 +1,6 @@
 package us.codecraft.webmagic.model;
 
-import us.codecraft.webmagic.model.formatter.ObjectFormatter;
+import us.codecraft.webmagic.model.common.ObjectFormatter;
 import us.codecraft.webmagic.model.sources.Source;
 import us.codecraft.webmagic.selector.Selector;
 

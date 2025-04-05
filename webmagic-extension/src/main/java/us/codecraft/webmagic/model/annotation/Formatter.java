@@ -1,6 +1,6 @@
 package us.codecraft.webmagic.model.annotation;
 
-import us.codecraft.webmagic.model.formatter.ObjectFormatter;
+import us.codecraft.webmagic.model.common.ObjectFormatter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

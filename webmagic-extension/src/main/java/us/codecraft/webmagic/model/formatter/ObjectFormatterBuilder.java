@@ -1,6 +1,7 @@
 package us.codecraft.webmagic.model.formatter;
 
 import us.codecraft.webmagic.model.annotation.Formatter;
+import us.codecraft.webmagic.model.common.ObjectFormatter;
 
 import java.lang.reflect.Field;
 import java.util.List;

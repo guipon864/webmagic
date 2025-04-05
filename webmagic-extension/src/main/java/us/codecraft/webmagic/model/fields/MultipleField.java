@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 
 import lombok.Getter;
 import us.codecraft.webmagic.model.FieldExtractor;
-import us.codecraft.webmagic.model.formatter.ObjectFormatter;
+import us.codecraft.webmagic.model.common.ObjectFormatter;
 
 public class MultipleField extends PageField {
    @Getter

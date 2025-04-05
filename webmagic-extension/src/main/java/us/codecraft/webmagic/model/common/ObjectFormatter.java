@@ -1,4 +1,4 @@
-package us.codecraft.webmagic.model.formatter;
+package us.codecraft.webmagic.model.common;
 
 /**
  * @author code4crafter@gmail.com

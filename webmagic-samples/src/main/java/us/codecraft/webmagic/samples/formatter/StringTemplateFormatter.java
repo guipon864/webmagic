@@ -1,6 +1,6 @@
 package us.codecraft.webmagic.samples.formatter;
 
-import us.codecraft.webmagic.model.formatter.ObjectFormatter;
+import us.codecraft.webmagic.model.common.ObjectFormatter;
 
 /**
  * @author yihua.huang@dianping.com

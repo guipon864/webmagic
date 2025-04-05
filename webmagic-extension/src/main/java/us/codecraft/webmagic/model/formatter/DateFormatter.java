@@ -1,6 +1,7 @@
 package us.codecraft.webmagic.model.formatter;
 
 import org.apache.commons.lang3.time.DateUtils;
+import us.codecraft.webmagic.model.common.ObjectFormatter;
 
 import java.util.Date;
 
