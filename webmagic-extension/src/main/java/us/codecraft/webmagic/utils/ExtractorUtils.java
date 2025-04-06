@@ -1,6 +1,6 @@
 package us.codecraft.webmagic.utils;
 
-import us.codecraft.webmagic.model.annotation.ExtractBy;
+import us.codecraft.webmagic.model.common.ExtractBy;
 import us.codecraft.webmagic.selector.*;
 
 import java.util.ArrayList;

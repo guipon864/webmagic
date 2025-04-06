@@ -6,7 +6,7 @@ import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.monitor.SpiderMonitor;
 import us.codecraft.webmagic.pipeline.PageModelPipeline;
-import us.codecraft.webmagic.model.annotation.ExtractBy;
+import us.codecraft.webmagic.model.common.ExtractBy;
 import us.codecraft.webmagic.model.annotation.ExtractByUrl;
 import us.codecraft.webmagic.model.annotation.HelpUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;

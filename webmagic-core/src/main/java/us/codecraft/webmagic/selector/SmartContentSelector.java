@@ -1,10 +1,10 @@
 package us.codecraft.webmagic.selector;
 
-import us.codecraft.webmagic.utils.Experimental;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import us.codecraft.webmagic.utils.interf.Experimental;
 
 /**
  * Borrowed from https://code.google.com/p/cx-extractor/

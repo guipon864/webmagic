@@ -2,8 +2,8 @@ package us.codecraft.webmagic.example;
 
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.model.OOSpider;
-import us.codecraft.webmagic.model.annotation.ExtractBy;
-import us.codecraft.webmagic.utils.Experimental;
+import us.codecraft.webmagic.model.common.ExtractBy;
+import us.codecraft.webmagic.utils.interf.Experimental;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package us.codecraft.webmagic.model;
 
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
-import us.codecraft.webmagic.model.annotation.ExtractBy;
+import us.codecraft.webmagic.model.common.ExtractBy;
 import us.codecraft.webmagic.pipeline.CollectorPageModelPipeline;
 import us.codecraft.webmagic.pipeline.CollectorPipeline;
 

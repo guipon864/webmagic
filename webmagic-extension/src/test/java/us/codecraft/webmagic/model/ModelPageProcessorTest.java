@@ -3,7 +3,7 @@ package us.codecraft.webmagic.model;
 import org.junit.Test;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
-import us.codecraft.webmagic.model.annotation.ExtractBy;
+import us.codecraft.webmagic.model.common.ExtractBy;
 import us.codecraft.webmagic.model.annotation.HelpUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
 import us.codecraft.webmagic.selector.PlainText;

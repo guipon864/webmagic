@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import lombok.Getter;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.model.annotation.*;
+import us.codecraft.webmagic.model.common.ExtractBy;
 import us.codecraft.webmagic.model.fields.PageField;
 import us.codecraft.webmagic.model.formatter.ObjectFormatterBuilder;
 import us.codecraft.webmagic.model.sources.Source;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static us.codecraft.webmagic.model.annotation.ExtractBy.Source.RawText;
+import static us.codecraft.webmagic.model.common.ExtractBy.Source.RawText;
 
 /**
  * The main internal logic of page model extractor.

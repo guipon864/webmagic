@@ -3,7 +3,7 @@ package us.codecraft.webmagic;
 import org.junit.Ignore;
 import org.junit.Test;
 import us.codecraft.webmagic.model.AfterExtractor;
-import us.codecraft.webmagic.model.annotation.ExtractBy;
+import us.codecraft.webmagic.model.common.ExtractBy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

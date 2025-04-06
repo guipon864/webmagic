@@ -1,5 +1,7 @@
 package us.codecraft.webmagic.model.annotation;
 
+import us.codecraft.webmagic.model.common.ExtractBy;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

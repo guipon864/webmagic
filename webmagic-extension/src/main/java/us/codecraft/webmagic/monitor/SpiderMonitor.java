@@ -17,7 +17,7 @@ import javax.management.ObjectName;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.SpiderListener;
-import us.codecraft.webmagic.utils.Experimental;
+import us.codecraft.webmagic.utils.interf.Experimental;
 import us.codecraft.webmagic.utils.UrlUtils;
 
 /**

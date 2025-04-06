@@ -1,6 +1,6 @@
 package us.codecraft.webmagic.model.common;
 
-import us.codecraft.webmagic.utils.Experimental;
+import us.codecraft.webmagic.utils.interf.Experimental;
 
 /**
  * Interface to be implemented by page mode.<br>

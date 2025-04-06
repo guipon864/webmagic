@@ -1,4 +1,4 @@
-package us.codecraft.webmagic.utils;
+package us.codecraft.webmagic.utils.interf;
 
 /**
  * Stands for features unstable.

@@ -6,7 +6,7 @@ import java.util.List;
 import us.codecraft.webmagic.MultiPageModel;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.model.OOSpider;
-import us.codecraft.webmagic.model.annotation.ExtractBy;
+import us.codecraft.webmagic.model.common.ExtractBy;
 import us.codecraft.webmagic.model.annotation.ExtractByUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;

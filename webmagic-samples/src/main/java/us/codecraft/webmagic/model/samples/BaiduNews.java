@@ -2,7 +2,7 @@ package us.codecraft.webmagic.model.samples;
 
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.model.OOSpider;
-import us.codecraft.webmagic.model.annotation.ExtractBy;
+import us.codecraft.webmagic.model.common.ExtractBy;
 
 /**
  * @author code4crafter@gmail.com

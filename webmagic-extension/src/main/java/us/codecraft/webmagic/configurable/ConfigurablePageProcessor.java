@@ -3,7 +3,7 @@ package us.codecraft.webmagic.configurable;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
-import us.codecraft.webmagic.utils.Experimental;
+import us.codecraft.webmagic.utils.interf.Experimental;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Experimental
 public class ConfigurablePageProcessor implements PageProcessor {
+
 
     private Site site;
 

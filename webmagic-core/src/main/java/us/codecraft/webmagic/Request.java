@@ -7,7 +7,7 @@ import java.util.Map;
 
 import us.codecraft.webmagic.downloader.Downloader;
 import us.codecraft.webmagic.model.common.HttpRequestBody;
-import us.codecraft.webmagic.utils.Experimental;
+import us.codecraft.webmagic.utils.interf.Experimental;
 
 /**
  * Object contains url to crawl.<br>

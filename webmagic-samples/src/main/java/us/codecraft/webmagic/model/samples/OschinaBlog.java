@@ -4,7 +4,7 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.pipeline.PageModelPipeline;
-import us.codecraft.webmagic.model.annotation.ExtractBy;
+import us.codecraft.webmagic.model.common.ExtractBy;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
 
 import java.util.List;
